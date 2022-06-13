@@ -54,7 +54,72 @@ namespace Lucky_Draw_Promotion.Data
                         PasswordSalt = passwordSalt, FullName = "Nguyen Chinh Thi" }                    
                     );
             });
-            
+            modelBuilder.Entity<Charset>(db =>
+            {
+                db.HasData(new
+                    {
+                        CharsetId = 1,
+                        CharsetName = "Numbers",
+                        CharsetValue = "123456789",
+                    });
+            });
+            modelBuilder.Entity<ProgramSize>(db =>
+            {
+                db.HasData(new
+                {
+                    PSId = 1,
+                    PSName = "Bulk codes",
+                    PSDescription = "up to thousands of random discount codes designed for single use by a limited group customers (e.g., \"ACME - 5P13E\" gives $25 off for the first 3 purchases, new customers from Warsaw only).",
+                },
+                new
+                {
+                    PSId = 2,
+                    PSName = "Standalone code",
+                    PSDescription = "A fixed-code discount designed for multiple uses (e.g., 10% off with \"blackfriday\" code).",
+                }
+                );
+            });
+            modelBuilder.Entity<Campaign>(db =>
+            {
+                db.HasData(new
+                {
+                    CampaignId = 1,
+                    CampaignName = "Lucky Draw 1",
+                    Description = "This is for test",
+                    StartDate = DateTime.Parse("2022-06-10"),
+                    EndDate = DateTime.Parse("2022-06-20"),
+                    CodeCount = 1,
+                    CodeUsageLimit = 1,
+                    CodeLength = 10,
+                    Unlimited = 1,
+                    Prefix = "ALTA",
+                    AutoUpdate = 1,
+                    ApplyForAllCampaign = 1,
+                    CharsetId = 1,
+                    ProgramSizeId = 1,
+                });
+            });
+            modelBuilder.Entity<Campaign>(db =>
+            {
+                db.HasData(new
+                {
+                    CampaignId = 2,
+                    CampaignName = "Lucky Draw 2",
+                    Description = "This is the second test",
+                    StartDate = DateTime.Parse("2022-06-10"),
+                    EndDate = DateTime.Parse("2022-06-20"),
+                    CodeCount = 1,
+                    CodeUsageLimit = 1,
+                    CodeLength = 10,
+                    Unlimited = 1,
+                    Prefix = "ALTA",
+                    AutoUpdate = 1,
+                    ApplyForAllCampaign = 2,
+                    CharsetId = 1,
+                    ProgramSizeId = 2,
+                });
+            });
+
         }
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {

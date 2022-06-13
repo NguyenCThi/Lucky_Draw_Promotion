@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Lucky_Draw_Promotion.Migrations
 {
-    public partial class CreateInitial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -300,7 +300,31 @@ namespace Lucky_Draw_Promotion.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "AdminId", "Email", "FullName", "PasswordChangeString", "PasswordHash", "PasswordSalt" },
-                values: new object[] { 1, "cooledm123@gmail.com", "Nguyen Chinh Thi", null, new byte[] { 84, 93, 21, 212, 135, 95, 90, 72, 201, 116, 201, 104, 152, 29, 119, 241, 209, 69, 170, 151, 100, 45, 195, 74, 161, 135, 75, 190, 252, 183, 52, 194, 110, 117, 231, 128, 39, 224, 106, 254, 146, 34, 75, 85, 88, 59, 15, 113, 113, 162, 31, 114, 117, 108, 126, 255, 83, 248, 189, 200, 42, 119, 242, 128 }, new byte[] { 247, 102, 208, 126, 143, 168, 182, 234, 215, 213, 92, 96, 162, 201, 109, 57, 179, 154, 136, 228, 130, 57, 204, 171, 45, 249, 128, 88, 65, 231, 164, 193, 238, 166, 177, 173, 144, 96, 68, 246, 211, 135, 212, 190, 122, 157, 191, 195, 12, 184, 77, 34, 120, 169, 206, 203, 251, 140, 177, 240, 254, 26, 128, 6, 136, 135, 217, 15, 141, 121, 78, 63, 218, 78, 103, 207, 223, 250, 64, 196, 204, 110, 117, 155, 140, 198, 199, 86, 108, 228, 163, 108, 40, 237, 137, 233, 131, 123, 14, 125, 113, 8, 84, 7, 91, 38, 52, 151, 206, 244, 153, 67, 251, 209, 229, 134, 196, 89, 234, 1, 107, 52, 78, 226, 22, 19, 113, 84 } });
+                values: new object[] { 1, "cooledm123@gmail.com", "Nguyen Chinh Thi", null, new byte[] { 102, 80, 9, 246, 25, 19, 202, 254, 214, 181, 56, 222, 85, 48, 232, 14, 199, 147, 77, 64, 15, 214, 151, 237, 254, 185, 105, 207, 151, 93, 107, 74, 142, 167, 92, 109, 19, 115, 34, 253, 221, 125, 73, 150, 78, 4, 94, 96, 56, 76, 85, 87, 143, 171, 16, 21, 46, 34, 140, 168, 127, 65, 228, 51 }, new byte[] { 96, 140, 43, 70, 66, 220, 140, 56, 194, 61, 144, 155, 84, 136, 226, 120, 247, 34, 202, 202, 18, 99, 57, 150, 115, 8, 16, 209, 70, 86, 117, 187, 127, 164, 207, 151, 36, 168, 3, 20, 211, 16, 169, 97, 246, 152, 96, 61, 91, 57, 200, 35, 244, 144, 11, 85, 182, 84, 55, 80, 95, 0, 34, 139, 182, 16, 234, 239, 180, 134, 169, 61, 189, 66, 117, 177, 65, 50, 97, 187, 67, 133, 192, 21, 145, 108, 198, 64, 98, 27, 115, 25, 211, 248, 33, 92, 136, 135, 113, 29, 54, 123, 248, 24, 42, 127, 118, 184, 98, 125, 154, 34, 34, 126, 72, 164, 86, 180, 206, 5, 195, 194, 78, 116, 5, 253, 184, 157 } });
+
+            migrationBuilder.InsertData(
+                table: "Charsets",
+                columns: new[] { "CharsetId", "CharsetName", "CharsetValue" },
+                values: new object[] { 1, "Numbers", "123456789" });
+
+            migrationBuilder.InsertData(
+                table: "ProgramSizes",
+                columns: new[] { "PSId", "PSDescription", "PSName" },
+                values: new object[,]
+                {
+                    { 1, "up to thousands of random discount codes designed for single use by a limited group customers (e.g., \"ACME - 5P13E\" gives $25 off for the first 3 purchases, new customers from Warsaw only).", "Bulk codes" },
+                    { 2, "A fixed-code discount designed for multiple uses (e.g., 10% off with \"blackfriday\" code).", "Standalone code" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Campaigns",
+                columns: new[] { "CampaignId", "ApplyForAllCampaign", "AutoUpdate", "CampaignName", "CharsetId", "CodeCount", "CodeLength", "CodeUsageLimit", "Description", "EndDate", "Postfix", "Prefix", "ProgramSizeId", "StartDate", "Unlimited" },
+                values: new object[] { 1, 1, 1, "Lucky Draw 1", 1, 1, 10, 1, "This is for test", new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "ALTA", 1, new DateTime(2022, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 });
+
+            migrationBuilder.InsertData(
+                table: "Campaigns",
+                columns: new[] { "CampaignId", "ApplyForAllCampaign", "AutoUpdate", "CampaignName", "CharsetId", "CodeCount", "CodeLength", "CodeUsageLimit", "Description", "EndDate", "Postfix", "Prefix", "ProgramSizeId", "StartDate", "Unlimited" },
+                values: new object[] { 2, 2, 1, "Lucky Draw 2", 1, 1, 10, 1, "This is the second test", new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "ALTA", 2, new DateTime(2022, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_Email",

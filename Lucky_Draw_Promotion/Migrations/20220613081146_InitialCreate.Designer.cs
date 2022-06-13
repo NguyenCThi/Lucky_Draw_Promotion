@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lucky_Draw_Promotion.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220609083505_CreateInitial")]
-    partial class CreateInitial
+    [Migration("20220613081146_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,8 +64,8 @@ namespace Lucky_Draw_Promotion.Migrations
                             AdminId = 1,
                             Email = "cooledm123@gmail.com",
                             FullName = "Nguyen Chinh Thi",
-                            PasswordHash = new byte[] { 84, 93, 21, 212, 135, 95, 90, 72, 201, 116, 201, 104, 152, 29, 119, 241, 209, 69, 170, 151, 100, 45, 195, 74, 161, 135, 75, 190, 252, 183, 52, 194, 110, 117, 231, 128, 39, 224, 106, 254, 146, 34, 75, 85, 88, 59, 15, 113, 113, 162, 31, 114, 117, 108, 126, 255, 83, 248, 189, 200, 42, 119, 242, 128 },
-                            PasswordSalt = new byte[] { 247, 102, 208, 126, 143, 168, 182, 234, 215, 213, 92, 96, 162, 201, 109, 57, 179, 154, 136, 228, 130, 57, 204, 171, 45, 249, 128, 88, 65, 231, 164, 193, 238, 166, 177, 173, 144, 96, 68, 246, 211, 135, 212, 190, 122, 157, 191, 195, 12, 184, 77, 34, 120, 169, 206, 203, 251, 140, 177, 240, 254, 26, 128, 6, 136, 135, 217, 15, 141, 121, 78, 63, 218, 78, 103, 207, 223, 250, 64, 196, 204, 110, 117, 155, 140, 198, 199, 86, 108, 228, 163, 108, 40, 237, 137, 233, 131, 123, 14, 125, 113, 8, 84, 7, 91, 38, 52, 151, 206, 244, 153, 67, 251, 209, 229, 134, 196, 89, 234, 1, 107, 52, 78, 226, 22, 19, 113, 84 }
+                            PasswordHash = new byte[] { 102, 80, 9, 246, 25, 19, 202, 254, 214, 181, 56, 222, 85, 48, 232, 14, 199, 147, 77, 64, 15, 214, 151, 237, 254, 185, 105, 207, 151, 93, 107, 74, 142, 167, 92, 109, 19, 115, 34, 253, 221, 125, 73, 150, 78, 4, 94, 96, 56, 76, 85, 87, 143, 171, 16, 21, 46, 34, 140, 168, 127, 65, 228, 51 },
+                            PasswordSalt = new byte[] { 96, 140, 43, 70, 66, 220, 140, 56, 194, 61, 144, 155, 84, 136, 226, 120, 247, 34, 202, 202, 18, 99, 57, 150, 115, 8, 16, 209, 70, 86, 117, 187, 127, 164, 207, 151, 36, 168, 3, 20, 211, 16, 169, 97, 246, 152, 96, 61, 91, 57, 200, 35, 244, 144, 11, 85, 182, 84, 55, 80, 95, 0, 34, 139, 182, 16, 234, 239, 180, 134, 169, 61, 189, 66, 117, 177, 65, 50, 97, 187, 67, 133, 192, 21, 145, 108, 198, 64, 98, 27, 115, 25, 211, 248, 33, 92, 136, 135, 113, 29, 54, 123, 248, 24, 42, 127, 118, 184, 98, 125, 154, 34, 34, 126, 72, 164, 86, 180, 206, 5, 195, 194, 78, 116, 5, 253, 184, 157 }
                         });
                 });
 
@@ -191,6 +191,42 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasIndex("ProgramSizeId");
 
                     b.ToTable("Campaigns");
+
+                    b.HasData(
+                        new
+                        {
+                            CampaignId = 1,
+                            ApplyForAllCampaign = 1,
+                            AutoUpdate = 1,
+                            CampaignName = "Lucky Draw 1",
+                            CharsetId = 1,
+                            CodeCount = 1,
+                            CodeLength = 10,
+                            CodeUsageLimit = 1,
+                            Description = "This is for test",
+                            EndDate = new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Prefix = "ALTA",
+                            ProgramSizeId = 1,
+                            StartDate = new DateTime(2022, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = 1
+                        },
+                        new
+                        {
+                            CampaignId = 2,
+                            ApplyForAllCampaign = 2,
+                            AutoUpdate = 1,
+                            CampaignName = "Lucky Draw 2",
+                            CharsetId = 1,
+                            CodeCount = 1,
+                            CodeLength = 10,
+                            CodeUsageLimit = 1,
+                            Description = "This is the second test",
+                            EndDate = new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Prefix = "ALTA",
+                            ProgramSizeId = 2,
+                            StartDate = new DateTime(2022, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = 1
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Charset", b =>
@@ -212,6 +248,14 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasKey("CharsetId");
 
                     b.ToTable("Charsets");
+
+                    b.HasData(
+                        new
+                        {
+                            CharsetId = 1,
+                            CharsetName = "Numbers",
+                            CharsetValue = "123456789"
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Customer", b =>
@@ -381,6 +425,20 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasKey("PSId");
 
                     b.ToTable("ProgramSizes");
+
+                    b.HasData(
+                        new
+                        {
+                            PSId = 1,
+                            PSDescription = "up to thousands of random discount codes designed for single use by a limited group customers (e.g., \"ACME - 5P13E\" gives $25 off for the first 3 purchases, new customers from Warsaw only).",
+                            PSName = "Bulk codes"
+                        },
+                        new
+                        {
+                            PSId = 2,
+                            PSDescription = "A fixed-code discount designed for multiple uses (e.g., 10% off with \"blackfriday\" code).",
+                            PSName = "Standalone code"
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.TypeOfBusiness", b =>
