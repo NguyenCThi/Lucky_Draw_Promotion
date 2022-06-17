@@ -1,6 +1,6 @@
 ﻿namespace Lucky_Draw_Promotion.Models
 {
-    public class UpdateCampaign
+    public class UpdateCampaignDTO
     {
         public int CampaignId { get; set; }
         public string CampaignName { get; set; } = null!;

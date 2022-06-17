@@ -9,17 +9,18 @@ namespace Lucky_Draw_Promotion.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CampaignId { get; set; }
         public string CampaignName { get; set; } = null!;
-        public string Description { get; set; } = null!;
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public int CodeCount { get; set; }
-        public int CodeUsageLimit { get; set; }
-        public int CodeLength { get; set; }
-        public int Unlimited { get; set; }
-        public string Prefix { get; set; } = null!;
+        public string? Description { get; set; } = null!;
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int CodeCount { get; set; } = 1;
+        public int CodeUsageLimit { get; set; } = 1;
+        public int CodeLength { get; set; } = 10;
+        public bool Unlimited { get; set; }
+        public string? Prefix { get; set; } = null!;
         public string? Postfix { get; set; }
-        public int AutoUpdate { get; set; }
-        public int ApplyForAllCampaign { get; set; }
+        public bool AutoUpdate { get; set; }
+        public bool OnlyJoinOne { get; set; }
+        public bool ApplyForAllCampaign { get; set; }
         [ForeignKey("CharsetId")]
         public Charset Charset { get; set; } = null!;
         public int CharsetId { get; set; }

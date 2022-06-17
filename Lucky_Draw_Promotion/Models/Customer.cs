@@ -11,9 +11,10 @@ namespace Lucky_Draw_Promotion.Models
         public int CustomerId { get; set; }
         public string Fullname { get; set; }
         public string PhoneNumber { get; set; }
+        [Column(TypeName = "date")]
         public DateTime DateOfBirth { get; set; }
         public string Location { get; set; }
-        public int Block { get; set; }
+        public bool Block { get; set; }
         public int PositionId { get; set; }
         [ForeignKey("PositionId")]
         public Position Position { get; set; }

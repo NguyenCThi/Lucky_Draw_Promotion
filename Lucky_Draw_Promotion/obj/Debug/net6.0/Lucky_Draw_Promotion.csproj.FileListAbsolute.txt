@@ -65,3 +65,7 @@ D:\Vs\source\repos\Lucky_Draw_Promotion\Lucky_Draw_Promotion\bin\Debug\net6.0\Mi
 D:\Vs\source\repos\Lucky_Draw_Promotion\Lucky_Draw_Promotion\bin\Debug\net6.0\Scrutor.dll
 D:\Vs\source\repos\Lucky_Draw_Promotion\Lucky_Draw_Promotion\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.dll
 D:\Vs\source\repos\Lucky_Draw_Promotion\Lucky_Draw_Promotion\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
+D:\Vs\source\repos\Lucky_Draw_Promotion\Lucky_Draw_Promotion\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Vs\source\repos\Lucky_Draw_Promotion\Lucky_Draw_Promotion\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Vs\source\repos\Lucky_Draw_Promotion\Lucky_Draw_Promotion\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Vs\source\repos\Lucky_Draw_Promotion\Lucky_Draw_Promotion\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

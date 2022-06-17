@@ -62,8 +62,8 @@ namespace Lucky_Draw_Promotion.Migrations
                             AdminId = 1,
                             Email = "cooledm123@gmail.com",
                             FullName = "Nguyen Chinh Thi",
-                            PasswordHash = new byte[] { 102, 80, 9, 246, 25, 19, 202, 254, 214, 181, 56, 222, 85, 48, 232, 14, 199, 147, 77, 64, 15, 214, 151, 237, 254, 185, 105, 207, 151, 93, 107, 74, 142, 167, 92, 109, 19, 115, 34, 253, 221, 125, 73, 150, 78, 4, 94, 96, 56, 76, 85, 87, 143, 171, 16, 21, 46, 34, 140, 168, 127, 65, 228, 51 },
-                            PasswordSalt = new byte[] { 96, 140, 43, 70, 66, 220, 140, 56, 194, 61, 144, 155, 84, 136, 226, 120, 247, 34, 202, 202, 18, 99, 57, 150, 115, 8, 16, 209, 70, 86, 117, 187, 127, 164, 207, 151, 36, 168, 3, 20, 211, 16, 169, 97, 246, 152, 96, 61, 91, 57, 200, 35, 244, 144, 11, 85, 182, 84, 55, 80, 95, 0, 34, 139, 182, 16, 234, 239, 180, 134, 169, 61, 189, 66, 117, 177, 65, 50, 97, 187, 67, 133, 192, 21, 145, 108, 198, 64, 98, 27, 115, 25, 211, 248, 33, 92, 136, 135, 113, 29, 54, 123, 248, 24, 42, 127, 118, 184, 98, 125, 154, 34, 34, 126, 72, 164, 86, 180, 206, 5, 195, 194, 78, 116, 5, 253, 184, 157 }
+                            PasswordHash = new byte[] { 137, 70, 33, 115, 198, 86, 96, 26, 40, 13, 12, 123, 40, 71, 12, 119, 124, 40, 231, 201, 247, 150, 5, 233, 223, 83, 81, 229, 239, 225, 253, 130, 147, 222, 171, 218, 183, 94, 31, 134, 8, 40, 16, 208, 19, 39, 102, 8, 247, 157, 132, 34, 84, 247, 146, 69, 77, 95, 81, 15, 27, 5, 170, 228 },
+                            PasswordSalt = new byte[] { 110, 221, 110, 80, 104, 36, 41, 61, 86, 95, 165, 29, 92, 167, 166, 157, 159, 224, 77, 246, 240, 152, 225, 58, 10, 12, 225, 4, 31, 56, 227, 34, 129, 95, 160, 94, 107, 249, 54, 109, 185, 77, 15, 228, 58, 185, 97, 23, 237, 199, 59, 75, 86, 56, 104, 138, 59, 117, 208, 123, 213, 240, 185, 175, 148, 204, 101, 106, 150, 170, 177, 40, 190, 174, 53, 208, 112, 189, 82, 146, 239, 18, 183, 238, 233, 159, 20, 245, 127, 130, 64, 19, 106, 160, 242, 75, 147, 64, 90, 230, 138, 165, 215, 76, 234, 246, 155, 170, 223, 32, 141, 89, 244, 58, 216, 241, 50, 44, 109, 150, 144, 193, 28, 48, 250, 108, 14, 190 }
                         });
                 });
 
@@ -75,8 +75,8 @@ namespace Lucky_Draw_Promotion.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BarcodeId"), 1L, 1);
 
-                    b.Property<int>("Active")
-                        .HasColumnType("int");
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
 
                     b.Property<string>("BarcodePic")
                         .IsRequired()
@@ -94,33 +94,33 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.Property<int>("CodeRedemptionLimit")
                         .HasColumnType("int");
 
-                    b.Property<int>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiredDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Postfix")
                         .HasColumnType("int");
 
-                    b.Property<int>("ExpiredDate")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Postfix")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Prefix")
+                    b.Property<int?>("Prefix")
                         .HasColumnType("int");
 
                     b.Property<string>("QRCodePic")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Scanned")
-                        .HasColumnType("int");
+                    b.Property<bool>("Scanned")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("ScannedDate")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("ScannedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("Unlimited")
-                        .HasColumnType("int");
+                    b.Property<bool>("Unlimited")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("UsedForSpin")
-                        .HasColumnType("int");
+                    b.Property<bool>("UsedForSpin")
+                        .HasColumnType("bit");
 
                     b.HasKey("BarcodeId");
 
@@ -137,11 +137,11 @@ namespace Lucky_Draw_Promotion.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CampaignId"), 1L, 1);
 
-                    b.Property<int>("ApplyForAllCampaign")
-                        .HasColumnType("int");
+                    b.Property<bool>("ApplyForAllCampaign")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("AutoUpdate")
-                        .HasColumnType("int");
+                    b.Property<bool>("AutoUpdate")
+                        .HasColumnType("bit");
 
                     b.Property<string>("CampaignName")
                         .IsRequired()
@@ -160,27 +160,28 @@ namespace Lucky_Draw_Promotion.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("OnlyJoinOne")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Postfix")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Prefix")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProgramSizeId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Unlimited")
-                        .HasColumnType("int");
+                    b.Property<bool>("Unlimited")
+                        .HasColumnType("bit");
 
                     b.HasKey("CampaignId");
 
@@ -194,8 +195,8 @@ namespace Lucky_Draw_Promotion.Migrations
                         new
                         {
                             CampaignId = 1,
-                            ApplyForAllCampaign = 1,
-                            AutoUpdate = 1,
+                            ApplyForAllCampaign = false,
+                            AutoUpdate = false,
                             CampaignName = "Lucky Draw 1",
                             CharsetId = 1,
                             CodeCount = 1,
@@ -203,16 +204,17 @@ namespace Lucky_Draw_Promotion.Migrations
                             CodeUsageLimit = 1,
                             Description = "This is for test",
                             EndDate = new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OnlyJoinOne = false,
                             Prefix = "ALTA",
                             ProgramSizeId = 1,
                             StartDate = new DateTime(2022, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Unlimited = 1
+                            Unlimited = false
                         },
                         new
                         {
                             CampaignId = 2,
-                            ApplyForAllCampaign = 2,
-                            AutoUpdate = 1,
+                            ApplyForAllCampaign = true,
+                            AutoUpdate = false,
                             CampaignName = "Lucky Draw 2",
                             CharsetId = 1,
                             CodeCount = 1,
@@ -220,10 +222,11 @@ namespace Lucky_Draw_Promotion.Migrations
                             CodeUsageLimit = 1,
                             Description = "This is the second test",
                             EndDate = new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OnlyJoinOne = false,
                             Prefix = "ALTA",
                             ProgramSizeId = 2,
                             StartDate = new DateTime(2022, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Unlimited = 1
+                            Unlimited = false
                         });
                 });
 
@@ -264,11 +267,11 @@ namespace Lucky_Draw_Promotion.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
 
-                    b.Property<int>("Block")
-                        .HasColumnType("int");
+                    b.Property<bool>("Block")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Fullname")
                         .IsRequired()
@@ -295,6 +298,85 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasIndex("TOBId");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            CustomerId = 1,
+                            Block = true,
+                            DateOfBirth = new DateTime(1973, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fullname = "Nguyễn Hữu Huân",
+                            Location = "Quận 6, TPHCM",
+                            PhoneNumber = "0901456781",
+                            PositionId = 1,
+                            TOBId = 1
+                        },
+                        new
+                        {
+                            CustomerId = 2,
+                            Block = true,
+                            DateOfBirth = new DateTime(1974, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fullname = "Nguyễn Trọng Hữu",
+                            Location = "Quận 5, TPHCM",
+                            PhoneNumber = "0907852781",
+                            PositionId = 2,
+                            TOBId = 2
+                        },
+                        new
+                        {
+                            CustomerId = 3,
+                            Block = true,
+                            DateOfBirth = new DateTime(1975, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fullname = "Trần Hùng Phát",
+                            Location = "Quận 7, TPHCM",
+                            PhoneNumber = "0901485381",
+                            PositionId = 3,
+                            TOBId = 3
+                        },
+                        new
+                        {
+                            CustomerId = 4,
+                            Block = true,
+                            DateOfBirth = new DateTime(1976, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fullname = "Lê Ngọc Anh",
+                            Location = "Bến Lức, Long An",
+                            PhoneNumber = "0901451981",
+                            PositionId = 1,
+                            TOBId = 4
+                        },
+                        new
+                        {
+                            CustomerId = 5,
+                            Block = true,
+                            DateOfBirth = new DateTime(1977, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fullname = "Lê Phan",
+                            Location = "Biên Hòa, Đồng Nai",
+                            PhoneNumber = "0901742681",
+                            PositionId = 2,
+                            TOBId = 3
+                        },
+                        new
+                        {
+                            CustomerId = 6,
+                            Block = false,
+                            DateOfBirth = new DateTime(1978, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fullname = "Nguyễn Thị Ngọc Hương",
+                            Location = "Bến Lức, Long An",
+                            PhoneNumber = "0904803457",
+                            PositionId = 1,
+                            TOBId = 3
+                        },
+                        new
+                        {
+                            CustomerId = 7,
+                            Block = false,
+                            DateOfBirth = new DateTime(1979, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fullname = "Trần Văn Tình",
+                            Location = "Cai Lậy, Tiền Giang",
+                            PhoneNumber = "0947514514",
+                            PositionId = 1,
+                            TOBId = 5
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.CustomerBarcode", b =>
@@ -336,6 +418,50 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Gifts");
+
+                    b.HasData(
+                        new
+                        {
+                            GiftId = 1,
+                            CampaignId = 1,
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(441),
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            GiftId = 2,
+                            CampaignId = 1,
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(450),
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            GiftId = 3,
+                            CampaignId = 1,
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(451),
+                            ProductId = 3
+                        },
+                        new
+                        {
+                            GiftId = 4,
+                            CampaignId = 1,
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(452),
+                            ProductId = 4
+                        },
+                        new
+                        {
+                            GiftId = 5,
+                            CampaignId = 1,
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(453),
+                            ProductId = 5
+                        },
+                        new
+                        {
+                            GiftId = 6,
+                            CampaignId = 1,
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(453),
+                            ProductId = 6
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.GiftCode", b =>
@@ -346,11 +472,13 @@ namespace Lucky_Draw_Promotion.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GiftCodeId"), 1L, 1);
 
-                    b.Property<int>("Active")
-                        .HasColumnType("int");
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ActiveDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -364,6 +492,107 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasIndex("GiftId");
 
                     b.ToTable("GiftCodes");
+
+                    b.HasData(
+                        new
+                        {
+                            GiftCodeId = 1,
+                            Active = true,
+                            ActiveDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(472),
+                            Code = "ALTA231453",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(471),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 2,
+                            Active = true,
+                            ActiveDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(474),
+                            Code = "ALTA546375",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(474),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 3,
+                            Active = true,
+                            ActiveDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(475),
+                            Code = "ALTA111212",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(475),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 4,
+                            Active = false,
+                            Code = "ALTA215223",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(476),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 5,
+                            Active = false,
+                            Code = "ALTA512311",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(480),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 6,
+                            Active = false,
+                            Code = "ALTA734521",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(481),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 7,
+                            Active = false,
+                            Code = "ALTA346222",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(482),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 8,
+                            Active = false,
+                            Code = "ALTA890231",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(482),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 9,
+                            Active = false,
+                            Code = "ALTA888769",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(483),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 10,
+                            Active = false,
+                            Code = "ALTA909878",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(484),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 11,
+                            Active = false,
+                            Code = "ALTA999231",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(484),
+                            GiftId = 1
+                        },
+                        new
+                        {
+                            GiftCodeId = 12,
+                            Active = false,
+                            Code = "ALTA118908",
+                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(485),
+                            GiftId = 1
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Position", b =>
@@ -381,6 +610,23 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasKey("PositionId");
 
                     b.ToTable("Positions");
+
+                    b.HasData(
+                        new
+                        {
+                            PositionId = 1,
+                            PositionName = "Chủ"
+                        },
+                        new
+                        {
+                            PositionId = 2,
+                            PositionName = "Quản lý"
+                        },
+                        new
+                        {
+                            PositionId = 3,
+                            PositionName = "Bếp"
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Product", b =>
@@ -402,6 +648,44 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            ProductDescription = "Hạt nêm Knorr Chay Nấm Hương 400g",
+                            ProductName = "Hạt nêm Knorr Chay Nấm Hương 400g"
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ProductDescription = "Hạt nêm Knorr Từ Thịt Thăn, Xương Ống & Tủy 600gr",
+                            ProductName = "Hạt nêm Knorr Từ Thịt Thăn, Xương Ống & Tủy 600gr"
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ProductDescription = "Gia vị Hoàn Chỉnh Knorr Canh Chua 30g",
+                            ProductName = "Gia vị Hoàn Chỉnh Knorr Canh Chua 30g"
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ProductDescription = "Xốt Nêm Knorr Đậm Đặc Từ Thịt Vị Heo 240g",
+                            ProductName = "Xốt Nêm Knorr Đậm Đặc Từ Thịt Vị Heo 240g"
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ProductDescription = "Hạt Nêm Knorr Đậm Đặc Từ Thịt Thăn, Xương Ống & Tủy 900gr",
+                            ProductName = "Hạt Nêm Knorr Đậm Đặc Từ Thịt Thăn, Xương Ống & Tủy 900gr"
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ProductDescription = "Knorr Natural Bột Nêm Tự Nhiên Vị Rau Củ 150g",
+                            ProductName = "Knorr Natural Bột Nêm Tự Nhiên Vị Rau Củ 150g"
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.ProgramSize", b =>
@@ -439,6 +723,64 @@ namespace Lucky_Draw_Promotion.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lucky_Draw_Promotion.Models.RuleGift", b =>
+                {
+                    b.Property<int>("RuleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RuleId"), 1L, 1);
+
+                    b.Property<bool>("AllDay")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ChooseDayForWeeklyOn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EndDateRD")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GiftAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GiftId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("MonthlyOnDay")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Probability")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("RepeatDaily")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RuleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SelectDayForMonthlyOnDay")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StartDateRD")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("WeeklyOn")
+                        .HasColumnType("bit");
+
+                    b.HasKey("RuleId");
+
+                    b.HasIndex("GiftId");
+
+                    b.ToTable("RuleGifts");
+                });
+
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.TypeOfBusiness", b =>
                 {
                     b.Property<int>("TOBId")
@@ -454,6 +796,33 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasKey("TOBId");
 
                     b.ToTable("TypeOfBusinesses");
+
+                    b.HasData(
+                        new
+                        {
+                            TOBId = 1,
+                            TOBName = "Khách sạn"
+                        },
+                        new
+                        {
+                            TOBId = 2,
+                            TOBName = "Nhà hàng"
+                        },
+                        new
+                        {
+                            TOBId = 3,
+                            TOBName = "Quán ăn"
+                        },
+                        new
+                        {
+                            TOBId = 4,
+                            TOBName = "Bán sỉ"
+                        },
+                        new
+                        {
+                            TOBId = 5,
+                            TOBName = "Resort"
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Winner", b =>
@@ -470,8 +839,8 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.Property<int>("GiftCodeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SendGift")
-                        .HasColumnType("int");
+                    b.Property<bool>("SendGift")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("WinDate")
                         .HasColumnType("datetime2");
@@ -483,6 +852,24 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasIndex("GiftCodeId");
 
                     b.ToTable("Winners");
+
+                    b.HasData(
+                        new
+                        {
+                            WinnerId = 1,
+                            CustomerId = 1,
+                            GiftCodeId = 3,
+                            SendGift = true,
+                            WinDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(588)
+                        },
+                        new
+                        {
+                            WinnerId = 2,
+                            CustomerId = 2,
+                            GiftCodeId = 4,
+                            SendGift = false,
+                            WinDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(589)
+                        });
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Barcode", b =>
@@ -583,6 +970,17 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.Navigation("Gift");
                 });
 
+            modelBuilder.Entity("Lucky_Draw_Promotion.Models.RuleGift", b =>
+                {
+                    b.HasOne("Lucky_Draw_Promotion.Models.Gift", "Gift")
+                        .WithMany("ruleGifts")
+                        .HasForeignKey("GiftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gift");
+                });
+
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Winner", b =>
                 {
                     b.HasOne("Lucky_Draw_Promotion.Models.Customer", "Customer")
@@ -629,6 +1027,8 @@ namespace Lucky_Draw_Promotion.Migrations
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Gift", b =>
                 {
                     b.Navigation("GiftCodes");
+
+                    b.Navigation("ruleGifts");
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.GiftCode", b =>

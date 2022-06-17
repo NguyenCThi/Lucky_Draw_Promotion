@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Lucky_Draw_Promotion.DTO;
+using Lucky_Draw_Promotion.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lucky_Draw_Promotion.Controllers
@@ -7,85 +9,145 @@ namespace Lucky_Draw_Promotion.Controllers
     [ApiController, Authorize]
     public class CampaignController : ControllerBase
     {
-        private readonly DataContext _context;
-        private readonly IConfiguration _configuration;
-        public CampaignController(DataContext context, IConfiguration configuration)
+        
+        private readonly ICampaignService _service;
+        public CampaignController(ICampaignService service)
         {
-            _context = context;
-            _configuration = configuration;
+            
+            _service = service;
         }
         // lấy tất cả dữ liệu campaign có trong database
         [HttpGet]
         public async Task<ActionResult<List<Campaign>>> GetAllCampaign()
         {
-            return Ok(await _context.Campaigns.ToListAsync());
+            var getAll = await _service.GetAllCampaign();
+            return Ok(getAll);
         }
-
-        // lấy dữ liệu campaign theo id
+        
+        // lấy campaign bằng id
         [HttpGet("{id}")]
-        public async Task<ActionResult<Campaign>> GetCampaign(int id)
+        public async Task<ActionResult> GetCampaignById(int id)
         {
-            var campaign = await _context.Campaigns.FindAsync(id);
-            if (campaign == null)
+            var campaign = await _service.GetCampaignById(id);
+            if(campaign == null)
             {
-                return BadRequest("Không tìm thấy được campaign.");
+                return BadRequest("Campaign not found!");
             }
             return Ok(campaign);
         }
 
-        // tạo 1 campaign
-        [HttpPost]
-        public async Task<ActionResult<List<Campaign>>> PostCampaign(CreateCampaign request)
+        [HttpPost("Bulk-Code")]
+        public async Task<ActionResult> CreateBulkCodeCampaign([FromForm]CreateBulkCodeDTO request)
         {
-            Campaign campaign = new Campaign();
-            campaign.CampaignName = request.CampaignName;
-            campaign.ApplyForAllCampaign = request.ApplyForAllCampaign;
-            campaign.CharsetId = request.CharsetId;
-            campaign.AutoUpdate = request.AutoUpdate;
-            campaign.CodeCount = request.CodeCount;
-            campaign.CodeLength = request.CodeLength;
-            campaign.CodeUsageLimit = request.CodeUsageLimit;
-            campaign.Description = request.Description;
-            campaign.StartDate = request.StartDate;
-            campaign.EndDate = request.EndDate;
-            campaign.Prefix = request.Prefix;
-            campaign.Postfix = request.Postfix;
-            campaign.ProgramSizeId = request.ProgramSizeId;
-            campaign.Unlimited = request.Unlimited;
-            _context.Campaigns.Add(campaign);
-            await _context.SaveChangesAsync();
-            return Ok(await _context.Campaigns.ToListAsync());
-        }
-
-        // xóa 1 campaign
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Campaign>>> DeleteCampaign(int id)
-        {
-            var dbCampaign = await _context.Campaigns.FindAsync(id);
-            if(dbCampaign == null)
+            var campaignId = await _service.CreateBulkCampaign(request);
+            if(campaignId == 0)
             {
-                return BadRequest("Không tìm thấy Campaign.");
+                return BadRequest();
             }
-            _context.Campaigns.Remove(dbCampaign);
-            await _context.SaveChangesAsync();
-            return Ok(await _context.Campaigns.ToListAsync());
+            var campaign = await _service.GetCampaignById(campaignId);
+            return CreatedAtAction(nameof(GetCampaignById), new {id = campaignId}, campaign);
         }
 
-        // sửa 1 campaign
-        [HttpPut]
-        public async Task<ActionResult<List<Campaign>>> PutCampaign(UpdateCampaign campaign)
+        [HttpPost("Standalone-Code")]
+        public async Task<ActionResult> CreateStandaloneCodeCampaign([FromForm]CreateStandaloneCodeDTO request)
         {
-            var dbCampaign = await _context.Campaigns.FindAsync(campaign.CampaignId);
-            if(dbCampaign == null)
+            var campaignId = await _service.CreateStandaloneCode(request);
+            if (campaignId == 0)
             {
-                return BadRequest("Không tìm thấy Campaign.");
+                return BadRequest();
             }
-            dbCampaign.CampaignName = campaign.CampaignName;
-            dbCampaign.Description = campaign.Description;
-            dbCampaign.CodeUsageLimit = campaign.CodeUsageLimit;
-            await _context.SaveChangesAsync();
-            return Ok(await _context.Campaigns.ToListAsync());
+            var campaign = await _service.GetCampaignById(campaignId);
+            return CreatedAtAction(nameof(GetCampaignById), new { id = campaignId }, campaign);
         }
 
+        [HttpPut("Set-time-frame")]
+        public async Task<ActionResult> CampaignSetTimeFrame([FromForm]SetTimeFrameDTO request, int campaignId)
+        {
+            var setTimeSuccess = await _service.SetTimeFrame(campaignId, request);
+            if(setTimeSuccess == 0)
+            {
+                return BadRequest();
+            }
+            return Ok(setTimeSuccess);
+        }
+
+        [HttpGet("/{campaignId}/gifts")]
+        public async Task<ActionResult> GetGiftByCampaignId(int campaignId)
+        {
+            var gifts = await _service.GetAllGiftFromCampaignId(campaignId);
+            if (gifts == null)
+            {
+                return Ok();
+            }
+            return Ok(gifts);
+        }
+
+        [HttpGet("/gifts/getGiftCode")]
+        public async Task<ActionResult> GetAllGiftCodeByGiftId(int id)
+        {
+            var giftsCode = await _service.GetAllGiftCodeByGiftId(id);
+            if (giftsCode == null)
+            {
+                return BadRequest("Gift code not found!");
+            }
+            return Ok(giftsCode);
+        }
+
+
+        [HttpPost("/gifts/create-gift")]
+        public async Task<ActionResult> CreateGiftCodes(int campaignId, int productId, int giftCodeCount)
+        {
+            var giftId = await _service.AddGift(productId, giftCodeCount, campaignId);
+            if (giftId == 0)
+            {
+                return BadRequest("Error appear when add gifts.");
+            }
+            var giftCode = await _service.GetAllGiftCodeByGiftId(giftId);
+            return Ok(giftCode); 
+        }
+        [HttpGet("/gifts/gifts-code/{id}")]
+        public async Task<ActionResult> GetGiftCode(int id)
+        {
+            var giftcode = await _service.GetGiftCodeById(id);
+            if(giftcode == null)
+            {
+                return BadRequest("Gift code not found.");
+            }
+            return Ok(giftcode);
+        }
+
+        [HttpPut("/gifts/gifts-code/active")]
+        public async Task<ActionResult> ActiveGiftCode(int id)
+        {
+            var giftCode = await _service.ActiveGiftCode(id);
+            if(giftCode == 0)
+            {
+                return BadRequest("Gift code not found.");
+            }
+            var giftCodeResult = await _service.GetGiftCodeById(giftCode);
+            return Ok(giftCodeResult);
+        }
+
+        [HttpPost("/rule-for-gift")]
+        public async Task<ActionResult> AddRuleForGift([FromForm]CreateRuleForGiftDTO request)
+        {
+            var ruleId = await _service.CreateRuleForGift(request);
+            if(ruleId == 0)
+            {
+                return BadRequest("An error appear when create the rule.");
+            }
+            var rule = await _service.GetRuleById(ruleId);
+            return Ok(rule);
+        }
+        [HttpGet("/rule-for-gift/{id}")]
+        public async Task<ActionResult> GetRule(int id)
+        {
+            var rule = await _service.GetRuleById(id);
+            if (rule == null)
+            {
+                return BadRequest("rule not found.");
+            }
+            return Ok(rule);
+        }
     }
 }

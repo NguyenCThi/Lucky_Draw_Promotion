@@ -9,13 +9,14 @@ namespace Lucky_Draw_Promotion.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int GiftCodeId { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string Code { get; set; }
-        public int Active { get; set; }
+        public string? Code { get; set; }
+        public bool Active { get; set; }
+        public DateTime? ActiveDate { get; set; }
         [ForeignKey("GiftId")]
         public Gift? Gift { get; set; }
         public int GiftId { get; set; }
 
 
-        public ICollection<Winner> Winners { get; set; }
+        public ICollection<Winner>? Winners { get; set; }
     }
 }

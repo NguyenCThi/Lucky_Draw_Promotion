@@ -1,16 +1,24 @@
 global using Lucky_Draw_Promotion.Data;
 global using Microsoft.EntityFrameworkCore;
+using Lucky_Draw_Promotion.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using static Lucky_Draw_Promotion.Services.AdminService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<ICampaignService, CampaignService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
