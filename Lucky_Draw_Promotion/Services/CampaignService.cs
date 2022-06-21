@@ -22,18 +22,15 @@ namespace Lucky_Draw_Promotion.Services
             {
                 giftCode.Active = true;
                 giftCode.ActiveDate = DateTime.Now;
-                _context.GiftCodes.Update(giftCode);
-                await _context.SaveChangesAsync();
-                return giftCode.GiftCodeId;
             }
             else
             {
                 giftCode.Active = false;
-                _context.GiftCodes.Update(giftCode);
-                await _context.SaveChangesAsync();
-                return giftCode.GiftCodeId;
             }
-            
+            _context.GiftCodes.Update(giftCode);
+            await _context.SaveChangesAsync();
+            return giftCode.GiftCodeId;
+
         }
 
         public async Task<int> AddGift(int productId, int giftCodeCount, int campaignId)
@@ -172,6 +169,23 @@ namespace Lucky_Draw_Promotion.Services
             return campaign.CampaignId;
         }
 
+        public async Task<int> EditProduct(int productId, string productName, string productDescription)
+        {
+            //TODO
+            Product product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                return 0;
+            }
+            if (productName != null)
+                product.ProductName = productName;
+            if(productDescription != null)
+                product.ProductDescription = productDescription;
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+            return product.ProductId;
+        }
+
         public async Task<List<Campaign>> GetAllCampaign()
         {
             //TODO
@@ -208,11 +222,32 @@ namespace Lucky_Draw_Promotion.Services
             return giftcode;
         }
 
+        public async Task<Product> GetProductById(int productId)
+        {
+            //TODO
+            var product = await _context.Products.FindAsync(productId);
+            return product;
+        }
+
         public async Task<RuleGift> GetRuleById(int ruleId)
         {
             //TODO
             var rule = await _context.RuleGifts.FindAsync(ruleId);
             return rule;
+        }
+
+        public Task<List<Campaign>> SearchingCampaignByName(string campaignName)
+        {
+            //TODO
+            var campaign = _context.Campaigns.Where(x => x.CampaignName.ToLower().Contains(campaignName.Trim().ToLower())).ToList();
+            return Task.FromResult(campaign);
+        }
+
+        public Task<List<Product>> SearchingProductByName(string productName)
+        {
+            //TODO
+            var product = _context.Products.Where(x => x.ProductName.ToLower().Contains(productName.Trim().ToLower())).ToList();
+            return Task.FromResult(product);
         }
 
         public async Task<int> SetTimeFrame(int campaignId, SetTimeFrameDTO request)
@@ -247,5 +282,9 @@ namespace Lucky_Draw_Promotion.Services
         Task<GiftCode> GetGiftCodeById(int giftCodeId);
         Task<int> CreateRuleForGift(CreateRuleForGiftDTO request);
         Task<RuleGift> GetRuleById(int ruleId);
+        Task<List<Campaign>> SearchingCampaignByName(string campaignName);
+        Task<int> EditProduct(int productId, string productName, string productDescription);
+        Task<Product> GetProductById(int productId);
+        Task<List<Product>> SearchingProductByName(string productName);
     }
 }

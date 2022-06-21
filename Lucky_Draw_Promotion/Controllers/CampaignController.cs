@@ -149,5 +149,49 @@ namespace Lucky_Draw_Promotion.Controllers
             }
             return Ok(rule);
         }
+
+        [HttpGet("/campaign/search-by-name/{name}")]
+        public async Task<ActionResult> GetCampaignByName(string name)
+        {
+            var campaign = await _service.SearchingCampaignByName(name);
+            if (campaign == null)
+            {
+                return BadRequest("Campaign not found.");
+            }
+            return Ok(campaign);
+        }
+
+        [HttpGet("/product/{productId}")]
+        public async Task<ActionResult> GetProductById (int productId)
+        {
+            var product = await _service.GetProductById(productId);
+            if(product == null)
+            {
+                return BadRequest("Product not found.");
+            }
+            return Ok(product);
+        }
+
+        [HttpPut("/product/edit-product/{productId}")]
+        public async Task<ActionResult> EditProductInfo(int productId, string productName, string productDescription)
+        {
+            var editProduct = await _service.EditProduct(productId, productName, productDescription);
+            if (editProduct == 0)
+            {
+                return BadRequest("Product not found.");
+            }
+            var product = await _service.GetProductById(productId);
+            return Ok(product);
+        }
+        [HttpGet("/product/search-by-name/{productName}")]
+        public async Task<ActionResult> SearchProductByName(string productName)
+        {
+            var products = await _service.SearchingProductByName(productName);
+            if (products == null)
+            {
+                return BadRequest("Product not found.");
+            }
+            return Ok(products);
+        }
     }
 }

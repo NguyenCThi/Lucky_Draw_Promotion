@@ -19,6 +19,9 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<ICampaignService, CampaignService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IPositionService, PositionService>();
+builder.Services.AddScoped<ITypeOfBusinessService, TypeOfBusinessService>();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
