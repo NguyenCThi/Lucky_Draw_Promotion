@@ -22,6 +22,8 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IPositionService, PositionService>();
 builder.Services.AddScoped<ITypeOfBusinessService, TypeOfBusinessService>();
+builder.Services.AddScoped<IBarcodeService, BarcodeService>();
+
 
 builder.Services.AddDbContext<DataContext>(options =>
 {

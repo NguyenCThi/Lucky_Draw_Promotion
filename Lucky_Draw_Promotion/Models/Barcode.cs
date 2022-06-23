@@ -10,12 +10,10 @@ namespace Lucky_Draw_Promotion.Models
         public int BarcodeId { get; set; }
         public int CodeRedemptionLimit { get; set; }
         public bool Unlimited { get; set; }
-        public int CodeCount { get; set; }
         public int CodeLength { get; set; }
-        public int? Prefix { get; set; }
-        public int? Postfix { get; set; }
-        public string BarcodePic { get; set; }
-        public string QRCodePic { get; set; }
+        public string? Prefix { get; set; }
+        public string? Postfix { get; set; }
+        public string CodeGenerated { get; set; }
         public bool Active { get; set; }
         public bool Scanned { get; set; }
         public bool UsedForSpin { get; set; }
@@ -25,6 +23,9 @@ namespace Lucky_Draw_Promotion.Models
         [ForeignKey("CampaignId")]
         public Campaign Campaign { get; set; }
         public int CampaignId { get; set; }
+        [ForeignKey("CharsetId")]
+        public Charset Charset { get; set; }
+        public int? CharsetId { get; set; }
 
 
 

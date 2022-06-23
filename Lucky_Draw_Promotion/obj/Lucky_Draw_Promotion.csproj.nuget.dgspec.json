@@ -44,6 +44,10 @@
               "target": "Package",
               "version": "[11.0.1, )"
             },
+            "BarCode": {
+              "target": "Package",
+              "version": "[2022.5.5918, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[6.0.5, )"
@@ -73,6 +77,10 @@
             "Swashbuckle.AspNetCore.Filters": {
               "target": "Package",
               "version": "[7.0.3, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[6.0.0, )"
             }
           },
           "imports": [

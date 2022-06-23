@@ -62,8 +62,8 @@ namespace Lucky_Draw_Promotion.Migrations
                             AdminId = 1,
                             Email = "cooledm123@gmail.com",
                             FullName = "Nguyen Chinh Thi",
-                            PasswordHash = new byte[] { 137, 70, 33, 115, 198, 86, 96, 26, 40, 13, 12, 123, 40, 71, 12, 119, 124, 40, 231, 201, 247, 150, 5, 233, 223, 83, 81, 229, 239, 225, 253, 130, 147, 222, 171, 218, 183, 94, 31, 134, 8, 40, 16, 208, 19, 39, 102, 8, 247, 157, 132, 34, 84, 247, 146, 69, 77, 95, 81, 15, 27, 5, 170, 228 },
-                            PasswordSalt = new byte[] { 110, 221, 110, 80, 104, 36, 41, 61, 86, 95, 165, 29, 92, 167, 166, 157, 159, 224, 77, 246, 240, 152, 225, 58, 10, 12, 225, 4, 31, 56, 227, 34, 129, 95, 160, 94, 107, 249, 54, 109, 185, 77, 15, 228, 58, 185, 97, 23, 237, 199, 59, 75, 86, 56, 104, 138, 59, 117, 208, 123, 213, 240, 185, 175, 148, 204, 101, 106, 150, 170, 177, 40, 190, 174, 53, 208, 112, 189, 82, 146, 239, 18, 183, 238, 233, 159, 20, 245, 127, 130, 64, 19, 106, 160, 242, 75, 147, 64, 90, 230, 138, 165, 215, 76, 234, 246, 155, 170, 223, 32, 141, 89, 244, 58, 216, 241, 50, 44, 109, 150, 144, 193, 28, 48, 250, 108, 14, 190 }
+                            PasswordHash = new byte[] { 67, 30, 6, 146, 133, 57, 174, 98, 239, 231, 30, 59, 103, 224, 230, 101, 253, 230, 21, 141, 207, 253, 227, 164, 123, 90, 116, 138, 207, 100, 221, 146, 198, 114, 254, 138, 33, 245, 29, 131, 76, 252, 219, 126, 106, 151, 73, 23, 204, 72, 192, 123, 208, 142, 55, 39, 208, 107, 89, 61, 219, 42, 152, 237 },
+                            PasswordSalt = new byte[] { 224, 148, 83, 204, 205, 38, 226, 70, 195, 209, 21, 149, 85, 152, 151, 212, 6, 146, 89, 21, 150, 25, 43, 224, 87, 168, 49, 70, 0, 81, 14, 81, 190, 122, 105, 212, 248, 51, 92, 201, 43, 204, 216, 200, 156, 193, 125, 109, 91, 189, 127, 36, 82, 174, 224, 26, 73, 234, 155, 161, 159, 43, 236, 253, 34, 130, 232, 205, 229, 155, 98, 143, 95, 175, 30, 9, 188, 16, 218, 185, 38, 233, 174, 92, 23, 170, 108, 68, 176, 185, 150, 170, 127, 24, 247, 175, 244, 193, 15, 249, 207, 37, 75, 248, 168, 204, 105, 38, 121, 74, 171, 61, 159, 191, 10, 111, 101, 174, 193, 136, 72, 218, 247, 33, 222, 243, 50, 93 }
                         });
                 });
 
@@ -78,15 +78,16 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<string>("BarcodePic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("CampaignId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CodeCount")
+                    b.Property<int?>("CharsetId")
+                        .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<string>("CodeGenerated")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CodeLength")
                         .HasColumnType("int");
@@ -100,14 +101,10 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.Property<DateTime>("ExpiredDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Postfix")
-                        .HasColumnType("int");
+                    b.Property<string>("Postfix")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Prefix")
-                        .HasColumnType("int");
-
-                    b.Property<string>("QRCodePic")
-                        .IsRequired()
+                    b.Property<string>("Prefix")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Scanned")
@@ -125,6 +122,8 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.HasKey("BarcodeId");
 
                     b.HasIndex("CampaignId");
+
+                    b.HasIndex("CharsetId");
 
                     b.ToTable("Barcodes");
                 });
@@ -270,7 +269,7 @@ namespace Lucky_Draw_Promotion.Migrations
                     b.Property<bool>("Block")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("Fullname")
@@ -278,17 +277,17 @@ namespace Lucky_Draw_Promotion.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PositionId")
+                    b.Property<int?>("PositionId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("TOBId")
+                    b.Property<int?>("TOBId")
                         .HasColumnType("int");
 
                     b.HasKey("CustomerId");
@@ -424,42 +423,42 @@ namespace Lucky_Draw_Promotion.Migrations
                         {
                             GiftId = 1,
                             CampaignId = 1,
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(441),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3325),
                             ProductId = 1
                         },
                         new
                         {
                             GiftId = 2,
                             CampaignId = 1,
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(450),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3333),
                             ProductId = 2
                         },
                         new
                         {
                             GiftId = 3,
                             CampaignId = 1,
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(451),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3334),
                             ProductId = 3
                         },
                         new
                         {
                             GiftId = 4,
                             CampaignId = 1,
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(452),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3335),
                             ProductId = 4
                         },
                         new
                         {
                             GiftId = 5,
                             CampaignId = 1,
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(453),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3336),
                             ProductId = 5
                         },
                         new
                         {
                             GiftId = 6,
                             CampaignId = 1,
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(453),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3336),
                             ProductId = 6
                         });
                 });
@@ -498,27 +497,27 @@ namespace Lucky_Draw_Promotion.Migrations
                         {
                             GiftCodeId = 1,
                             Active = true,
-                            ActiveDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(472),
+                            ActiveDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3356),
                             Code = "ALTA231453",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(471),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3356),
                             GiftId = 1
                         },
                         new
                         {
                             GiftCodeId = 2,
                             Active = true,
-                            ActiveDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(474),
+                            ActiveDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3358),
                             Code = "ALTA546375",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(474),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3358),
                             GiftId = 1
                         },
                         new
                         {
                             GiftCodeId = 3,
                             Active = true,
-                            ActiveDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(475),
+                            ActiveDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3360),
                             Code = "ALTA111212",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(475),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3359),
                             GiftId = 1
                         },
                         new
@@ -526,7 +525,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             GiftCodeId = 4,
                             Active = false,
                             Code = "ALTA215223",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(476),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3360),
                             GiftId = 1
                         },
                         new
@@ -534,7 +533,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             GiftCodeId = 5,
                             Active = false,
                             Code = "ALTA512311",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(480),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3361),
                             GiftId = 1
                         },
                         new
@@ -542,7 +541,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             GiftCodeId = 6,
                             Active = false,
                             Code = "ALTA734521",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(481),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3362),
                             GiftId = 1
                         },
                         new
@@ -550,7 +549,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             GiftCodeId = 7,
                             Active = false,
                             Code = "ALTA346222",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(482),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3363),
                             GiftId = 1
                         },
                         new
@@ -558,7 +557,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             GiftCodeId = 8,
                             Active = false,
                             Code = "ALTA890231",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(482),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3363),
                             GiftId = 1
                         },
                         new
@@ -566,7 +565,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             GiftCodeId = 9,
                             Active = false,
                             Code = "ALTA888769",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(483),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3364),
                             GiftId = 1
                         },
                         new
@@ -574,7 +573,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             GiftCodeId = 10,
                             Active = false,
                             Code = "ALTA909878",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(484),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3364),
                             GiftId = 1
                         },
                         new
@@ -582,7 +581,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             GiftCodeId = 11,
                             Active = false,
                             Code = "ALTA999231",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(484),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3365),
                             GiftId = 1
                         },
                         new
@@ -590,7 +589,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             GiftCodeId = 12,
                             Active = false,
                             Code = "ALTA118908",
-                            CreatedDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(485),
+                            CreatedDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3366),
                             GiftId = 1
                         });
                 });
@@ -860,7 +859,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             CustomerId = 1,
                             GiftCodeId = 3,
                             SendGift = true,
-                            WinDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(588)
+                            WinDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3535)
                         },
                         new
                         {
@@ -868,7 +867,7 @@ namespace Lucky_Draw_Promotion.Migrations
                             CustomerId = 2,
                             GiftCodeId = 4,
                             SendGift = false,
-                            WinDate = new DateTime(2022, 6, 17, 7, 40, 0, 269, DateTimeKind.Local).AddTicks(589)
+                            WinDate = new DateTime(2022, 6, 23, 8, 39, 53, 621, DateTimeKind.Local).AddTicks(3536)
                         });
                 });
 
@@ -880,7 +879,15 @@ namespace Lucky_Draw_Promotion.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Lucky_Draw_Promotion.Models.Charset", "Charset")
+                        .WithMany("Barcodes")
+                        .HasForeignKey("CharsetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Campaign");
+
+                    b.Navigation("Charset");
                 });
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Campaign", b =>
@@ -912,9 +919,7 @@ namespace Lucky_Draw_Promotion.Migrations
 
                     b.HasOne("Lucky_Draw_Promotion.Models.TypeOfBusiness", "TypeOfBusiness")
                         .WithMany("Customers")
-                        .HasForeignKey("TOBId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TOBId");
 
                     b.Navigation("Position");
 
@@ -1014,6 +1019,8 @@ namespace Lucky_Draw_Promotion.Migrations
 
             modelBuilder.Entity("Lucky_Draw_Promotion.Models.Charset", b =>
                 {
+                    b.Navigation("Barcodes");
+
                     b.Navigation("Campaigns");
                 });
 

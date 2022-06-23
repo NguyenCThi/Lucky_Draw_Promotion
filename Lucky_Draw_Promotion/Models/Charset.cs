@@ -11,5 +11,6 @@ namespace Lucky_Draw_Promotion.Models
         public string CharsetName { get; set; }
         public string CharsetValue { get; set; }
         public ICollection<Campaign> Campaigns { get; set; }
+        public ICollection<Barcode> Barcodes { get; set; }
     }
 }

@@ -33,6 +33,10 @@ namespace Lucky_Draw_Promotion.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Barcode>()
+                .HasOne(x => x.Charset)
+                .WithMany(x => x.Barcodes)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<CustomerBarcode>()
                 .HasKey(x => new { x.CustomerId, x.BarcodeId });
             modelBuilder.Entity<CustomerBarcode>()
@@ -420,6 +424,8 @@ namespace Lucky_Draw_Promotion.Data
                     GiftCodeId = 4,
                 });
             });
+            
+
         }
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
