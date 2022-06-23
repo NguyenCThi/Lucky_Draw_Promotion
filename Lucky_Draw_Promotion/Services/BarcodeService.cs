@@ -14,16 +14,26 @@ namespace Lucky_Draw_Promotion.Services
 
         public async Task<int> ActiveBarcode(int id)
         {
-            var barcode = await _dataContext.Barcodes.FindAsync(id);
+            Barcode? barcode = await _dataContext.Barcodes.FindAsync(id);
             if (barcode == null)
+            {
                 return 0;
+            }
             if (barcode.Scanned == true)
+            {
                 return 1;
+            }
             else
             {
                 if (barcode.Active == false)
+                {
                     barcode.Active = true;
-                barcode.Active = false;
+                }
+                else
+                {
+                    barcode.Active = false;
+
+                }
             }
             _dataContext.Barcodes.Update(barcode);
             await _dataContext.SaveChangesAsync();
@@ -43,10 +53,6 @@ namespace Lucky_Draw_Promotion.Services
                         barcode.CodeRedemptionLimit = request.CodeRedemptionLimit;
                         barcode.Unlimited = request.Unlimited;
                         barcode.CodeLength = request.CodeLength;
-                        barcode.Prefix = request.Prefix.ToUpper();
-                        barcode.Postfix = request.Postfix.ToUpper();
-                        barcode.CampaignId = request.CampaignId;
-                        barcode.CharsetId = request.CharsetId;
                         string prefixB = request.Prefix;
                         string postfixB = request.Postfix;
                         if (prefixB == null)
@@ -57,6 +63,11 @@ namespace Lucky_Draw_Promotion.Services
                         {
                             postfixB = "";
                         }
+                        barcode.Prefix = prefixB;
+                        barcode.Postfix = postfixB;
+                        barcode.CampaignId = request.CampaignId;
+                        barcode.CharsetId = request.CharsetId;
+                        
                         int prefixL = prefixB.Length;
                         int postfixL = postfixB.Length;
                         int randomBarcodeLength = request.CodeLength - (prefixL + postfixL);

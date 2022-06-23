@@ -43,9 +43,13 @@ namespace Lucky_Draw_Promotion.Controllers
             var barcode = await _barcodeService.ActiveBarcode(id);
             if (barcode == 0)
                 return BadRequest("This barcode not exists.");
-            if (barcode == 1)
+            else if (barcode == 1)
                 return BadRequest("This barcode already scanned.");
-            var barcodeById = await _barcodeService.GetBarcodeById(barcode);
+            var barcodeById = new BarcodeDTO();
+            if (barcode == 2)
+            {
+                barcodeById = await _barcodeService.GetBarcodeById(id);
+            }
             return Ok(barcodeById);
         }
     }
