@@ -9,7 +9,8 @@ namespace Lucky_Draw_Promotion.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductId { get; set; }
         public string ProductName { get; set; }
-        public string ProductDescription { get; set; }
+        public string? ProductDescription { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public ICollection<Gift> Gifts { get; set; }
     }
 }

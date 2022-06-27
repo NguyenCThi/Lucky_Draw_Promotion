@@ -23,6 +23,8 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IPositionService, PositionService>();
 builder.Services.AddScoped<ITypeOfBusinessService, TypeOfBusinessService>();
 builder.Services.AddScoped<IBarcodeService, BarcodeService>();
+builder.Services.AddScoped<IWinnerService, WinnerService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 
 builder.Services.AddDbContext<DataContext>(options =>

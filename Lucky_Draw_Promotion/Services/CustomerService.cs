@@ -71,10 +71,24 @@ namespace Lucky_Draw_Promotion.Services
             return customer;
         }
 
-        public async Task<Customer> GetCustomerById(int customerId)
+        public async Task<CustomerViewDTO> GetCustomerById(int customerId)
         {
             var customer = await _context.Customers.FindAsync(customerId);
-            return customer;
+            if( customer == null)
+            {
+                CustomerViewDTO customerViewDTO = new CustomerViewDTO();
+                return customerViewDTO;
+            }
+            CustomerViewDTO customerViewDTO1 = new CustomerViewDTO();
+            customerViewDTO1.Id = customer.CustomerId;
+            customerViewDTO1.Name = customer.Fullname;
+            customerViewDTO1.PhoneNumber = customer.PhoneNumber;
+            customerViewDTO1.DateOfBirth = String.Format("{0:MM/dd/yyyy}", customer.DateOfBirth);
+            var tobCustomer = await _context.TypeOfBusinesses.FindAsync(customer.TOBId);
+            customerViewDTO1.TypeOfBusiness = tobCustomer.TOBName;
+            customerViewDTO1.Location = customer.Location;
+            customerViewDTO1.Block = customer.Block;
+            return customerViewDTO1;
         }
 
         public async Task<int> IsBlockCustomer(int customerId)
@@ -99,6 +113,8 @@ namespace Lucky_Draw_Promotion.Services
             return customer.CustomerId;
         }
 
+        
+
         public Task<List<Customer>> SearchCustomerByName(string customerName)
         {
             var customers = _context.Customers.Where(x => x.Fullname.ToLower().Contains(customerName.ToLower().Trim())).ToList();
@@ -107,11 +123,12 @@ namespace Lucky_Draw_Promotion.Services
     }
     public interface ICustomerService
     {
-        Task<Customer> GetCustomerById(int customerId);
+        Task<CustomerViewDTO> GetCustomerById(int customerId);
         Task<List<Customer>> GetAllCustomer();
         Task<List<Customer>> SearchCustomerByName(string customerName);
         Task<int> CreateNewCustomer(CreateCustomerDTO customer);
         Task<int> IsBlockCustomer(int customerId);
         Task<int> EditCustomerInfo(int customerId, EditCustomerDTO request);
+        
     }
 }

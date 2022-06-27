@@ -169,6 +169,24 @@ namespace Lucky_Draw_Promotion.Services
             return campaign.CampaignId;
         }
 
+        public async Task<int> DeleteRuleById(int id)
+        {
+            try
+            {
+                RuleGift? ruleGift = await _context.RuleGifts.FindAsync(id);
+                if(ruleGift == null)
+                {
+                    return 1;
+                }
+                _context.RuleGifts.Remove(ruleGift);
+                await _context.SaveChangesAsync();
+                return 2;
+            }catch(Exception ex)
+            {
+                return 0;
+            }
+        }
+
         public async Task<int> EditProduct(int productId, string productName, string productDescription)
         {
             //TODO
@@ -286,5 +304,6 @@ namespace Lucky_Draw_Promotion.Services
         Task<int> EditProduct(int productId, string productName, string productDescription);
         Task<Product> GetProductById(int productId);
         Task<List<Product>> SearchingProductByName(string productName);
+        Task<int> DeleteRuleById(int id);
     }
 }

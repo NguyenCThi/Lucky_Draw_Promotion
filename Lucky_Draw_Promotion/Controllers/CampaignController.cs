@@ -193,5 +193,22 @@ namespace Lucky_Draw_Promotion.Controllers
             }
             return Ok(products);
         }
+        [HttpDelete("/campaign/delete-rule/{id}")]
+        public async Task<ActionResult> DeleteRuleById(int id)
+        {
+            var deleteRuleCheck = await _service.DeleteRuleById(id);
+            if(deleteRuleCheck == 0)
+            {
+                return BadRequest("Error appear when delete rule.");
+            }
+            else if(deleteRuleCheck == 1)
+            {
+                return BadRequest("Rule not found.");
+            }
+            else
+            {
+                return Ok("Delete rule success.");
+            }
+        }
     }
 }
