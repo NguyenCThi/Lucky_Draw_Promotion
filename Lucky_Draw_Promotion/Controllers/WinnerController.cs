@@ -1,4 +1,5 @@
-﻿using Lucky_Draw_Promotion.DTO;
+﻿using ClosedXML.Excel;
+using Lucky_Draw_Promotion.DTO;
 using Lucky_Draw_Promotion.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,7 @@ namespace Lucky_Draw_Promotion.Controllers
     public class WinnerController : ControllerBase
     {
         private readonly IWinnerService _winnerService;
-        public WinnerController(IWinnerService winnerService)
+        public WinnerController(DataContext context, IWinnerService winnerService)
         {
             _winnerService = winnerService;
         }
@@ -51,6 +52,22 @@ namespace Lucky_Draw_Promotion.Controllers
                 return BadRequest("Error appear when add new winner.");
             }
             return Ok("Winner add success. The winner Id: " + winner);
+        }
+        [HttpPost("/winner/export-excel/{campaignId}")]
+        public async Task<ActionResult> ExportWinnersByCampaignId(int campaignId)
+        {
+            var isCheck = await _winnerService.GetAllWinnerByCampaignId(campaignId);
+            if(isCheck.Count == 0)
+            {
+                return BadRequest("There no winners on this campaign.");
+            }
+            else
+            {
+                var streamexport = await _winnerService.ExportExcelAllWinnerByCampaignId(campaignId);
+                var content = streamexport.ToArray();
+                var filename = "winner" + campaignId + ".xlsx";
+                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename);
+            }
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using Lucky_Draw_Promotion.DTO;
+﻿using ClosedXML.Excel;
+using Lucky_Draw_Promotion.DTO;
 using Lucky_Draw_Promotion.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 
 namespace Lucky_Draw_Promotion.Controllers
 {
@@ -67,7 +69,26 @@ namespace Lucky_Draw_Promotion.Controllers
             var product = await _productService.GetProductById(productId);
             return Ok(product);
         }
-        
-
+        [HttpPost("/product/excel-all-product")]
+        public async Task<ActionResult> GetAllProductToExcel()
+        {
+            var streamExport = await _productService.ExportAllProduct();
+            var content = streamExport.ToArray();
+            var filename = "AllProduct.xlsx";
+            return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename);
+        }
+        [HttpPost("/product/import-excel")]
+        public async Task<ActionResult> ImportExcelProudct(IFormFile file)
+        {
+            var checkWhatHappen = await _productService.ImportProduct(file);
+            if(checkWhatHappen == 0)
+            {
+                return BadRequest("Please input .xlsx extension.");
+            }
+            else{
+                return Ok("Add products success.");
+            }
+            
+        }
     }
 }
